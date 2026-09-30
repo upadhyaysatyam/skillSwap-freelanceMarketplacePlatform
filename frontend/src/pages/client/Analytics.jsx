@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
+import api from '../../utils/api';
 import LineChart from '../../components/charts/LineChart';
 import BarChart from '../../components/charts/BarChart';
 import PieChart from '../../components/charts/PieChart';
@@ -11,11 +12,23 @@ import { formatCurrency, formatNumber } from '../../utils/exportUtils';
 const ClientAnalytics = () => {
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState(null);
-  const [dateRange, setDateRange] = useState({
-    startDate: null,
-    endDate: null,
+//   const [dateRange, setDateRange] = useState({
+//     startDate: null,
+//     endDate: null,
+//     rangeType: 'last30days'
+//   });
+const [dateRange, setDateRange] = useState(() => {
+  const endDate = new Date();
+  const startDate = new Date();
+  startDate.setDate(startDate.getDate() - 29);
+  startDate.setHours(0, 0, 0, 0);
+
+  return {
+    startDate,
+    endDate,
     rangeType: 'last30days'
-  });
+  };
+});
 
   // Chart refs for PDF export
   const monthlySpendingChartRef = useRef(null);
@@ -142,7 +155,9 @@ const handleDateRangeChange = useCallback((startDate, endDate, rangeType) => {
         }
 
         // Make real API call to fetch client analytics with date range
-        const response = await axios.get(`/api/analytics/client?${params.toString()}`);
+        // const response = await axios.get(`/api/analytics/client?${params.toString()}`);
+        
+        const response = await api.get(`/api/analytics/client?${params.toString()}`);
         console.log('Client analytics data:', response.data);
 
         // Set the real data from the API
