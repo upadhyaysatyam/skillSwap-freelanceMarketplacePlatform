@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
 import LineChart from '../../components/charts/LineChart';
 import BarChart from '../../components/charts/BarChart';
@@ -55,10 +55,12 @@ const ClientAnalytics = () => {
   };
 
   // Handle date range change
-  const handleDateRangeChange = (startDate, endDate, rangeType) => {
-    setDateRange({ startDate, endDate, rangeType });
-  };
-
+  // const handleDateRangeChange = (startDate, endDate, rangeType) => {
+  //   setDateRange({ startDate, endDate, rangeType });
+  // };
+const handleDateRangeChange = useCallback((startDate, endDate, rangeType) => {
+  setDateRange({ startDate, endDate, rangeType });
+}, []);
   // Prepare chart data
   const getMonthlySpendingChartData = () => {
     if (!stats || !stats.monthlySpending) return null;
