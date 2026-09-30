@@ -81,7 +81,8 @@ const BrowseFreelancers = () => {
       params.append('limit', 10);
 
       // Make API call with full URL
-      const url = `http://localhost:5001/api/users/freelancers/search?${params.toString()}`;
+      // const url = `http://localhost:5001/api/users/freelancers/search?${params.toString()}`;
+      const url = `/api/users/freelancers/search?${params.toString()}`;
       console.log('Fetching freelancers with URL:', url);
 
       // Use direct axios call instead of api instance

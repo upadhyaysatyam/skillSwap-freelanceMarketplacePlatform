@@ -15,7 +15,8 @@ const server = http.createServer(app);
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:5174', 'http://localhost:3000'], 
+  // origin: ['http://localhost:5174', 'http://localhost:3000'], 
+  orgin: true,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
@@ -130,7 +131,10 @@ io.on('connection', (socket) => {
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../frontend/dist')));
-  app.get('*', (req, res) => {
+  // app.get('*', (req, res) => {
+  //   res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
+  // })
+   app.get('/{*splat}', (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
   });
 }
@@ -140,7 +144,7 @@ const notificationService = require('./services/notifications/service');
 
 // Start server
 const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => {
+server.listen(PORT,'0.0.0.0', () => {
   console.log(`🚀 Server running on port ${PORT}`);
 
   notificationService.initNotificationService()

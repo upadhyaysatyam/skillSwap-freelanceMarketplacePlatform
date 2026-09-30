@@ -6,12 +6,12 @@ const mongoose = require('mongoose');
 const User = require('../models/User');
 
 // MongoDB Atlas connection string
-const MONGODB_URI = 'mongodb+srv://ramis:ramis123A@cluster0.xwqqn.mongodb.net/skillswap-ass4';
+// const MONGODB_URI = 'mongodb+srv://ramis:ramis123A@cluster0.xwqqn.mongodb.net/skillswap-ass4';
 
 // Connect to MongoDB Atlas
 async function connectToAtlas() {
   try {
-    await mongoose.connect(MONGODB_URI);
+    await mongoose.connect(process.env.MONGODB_URI);
     console.log('Connected to MongoDB Atlas');
     return true;
   } catch (error) {
